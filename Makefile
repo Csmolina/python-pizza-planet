@@ -11,6 +11,5 @@ test:
 	python3 manage.py test
 
 start:
-	FLASK_ENV=development
-	python3 manage.py run 
+	FLASK_ENV=development python3 manage.py run 
 
