@@ -14,9 +14,9 @@ def create_beverage():
 
 @beverage.route('/', methods=GET)
 def get_beverages():
-    ingredients, error = BeverageController.get_all()
-    response = ingredients if not error else {'error': error}
-    status_code = 200 if ingredients else 404 if not error else 400
+    beverages, error = BeverageController.get_all()
+    response = beverages if not error else {'error': error}
+    status_code = 200 if beverages else 404 if not error else 400
     return jsonify(response), status_code
 
 @beverage.route('/id/<_id>', methods=GET)
