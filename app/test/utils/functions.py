@@ -1,3 +1,4 @@
+import datetime
 import random
 import string
 from typing import Any, Union
@@ -35,3 +36,6 @@ def get_random_sequence(length: int = 10) -> str:
 
 def get_random_phone() -> str:
     return get_random_sequence(10)
+
+def get_random_date() ->str:
+    return datetime.datetime.now()
