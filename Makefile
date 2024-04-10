@@ -8,7 +8,7 @@ install:
 	pip3 install -r requirements.txt
 
 test:
-	python3 manage.py test
+	pytest --cov
 
 start:
 	FLASK_ENV=development python3 manage.py run 
