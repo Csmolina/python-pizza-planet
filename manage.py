@@ -9,6 +9,8 @@ from app.plugins import db
 # flake8: noqa
 from app.repositories.models import Ingredient, Order, OrderDetail, Size, Beverage
 
+from app.seeds import populate_database
+
 
 manager = FlaskGroup(flask_app)
 
@@ -20,6 +22,9 @@ migrate.init_app(flask_app, db)
 def test():
     return pytest.main(['-v', './app/test'])
 
+@manager.command('populate')
+def seed():
+    populate_database()
 
 if __name__ == '__main__':
     manager()
