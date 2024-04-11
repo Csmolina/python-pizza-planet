@@ -1,6 +1,6 @@
-from ..repositories.managers import IngredientManager
+from ..repositories.managers import ManagerFactory
 from .base import BaseController
 
 
 class IngredientController(BaseController):
-    manager = IngredientManager
+    manager = ManagerFactory.manager('ingredient')
