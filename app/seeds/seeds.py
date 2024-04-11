@@ -28,13 +28,13 @@ def add_ingredients():
 
 def get_sizes():
   all_sizes = ManagerFactory.manager('size').get_all()
-  size_index = random.randint(0, 1)
+  size_index = random.randint(0, 4)
   return all_sizes[size_index]
 
 def get_ingredients():
   ingredients_return = []
   all_ingredients = ManagerFactory.manager('ingredient').get_all()
-  ingredients_num = random.randint(1, 5)
+  ingredients_num = random.randint(1, 10)
   selected_ingredients = random.sample(all_ingredients,ingredients_num)
   for ingredient in selected_ingredients:
     modeled_ingredient = Ingredient(**ingredient)
@@ -45,7 +45,7 @@ def get_ingredients():
 def get_beverages():
   beverages_return = []
   all_beverages = ManagerFactory.manager('beverage').get_all()
-  beverages_num = random.randint(1, 2)
+  beverages_num = random.randint(1, 10)
   selected_beverages = random.sample(all_beverages,beverages_num)
   for beverage in selected_beverages:
     modeled_beverage = Beverage(**beverage)

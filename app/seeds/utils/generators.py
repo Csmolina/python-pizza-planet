@@ -17,11 +17,11 @@ def create_costumers()->list:
 
 def create_sizes() -> list:
     sizes = [
-        {"name": "small", "price": 5.00},
-        {"name": "medium", "price": 8.00},
-        {"name": "large", "price": 11.00},
-        {"name": "x-large", "price": 14.00},
-        {"name": "gigantic", "price": 17.00}
+        {"name": "Small", "price": 5.00},
+        {"name": "Medium", "price": 8.00},
+        {"name": "Large", "price": 11.00},
+        {"name": "X-Large", "price": 14.00},
+        {"name": "Gigantic", "price": 17.00}
     ]
     return sizes
 
