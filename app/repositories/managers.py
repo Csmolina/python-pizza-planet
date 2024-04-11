@@ -37,6 +37,10 @@ class BaseManager:
         cls.session.query(cls.model).filter_by(_id=_id).update(new_values)
         cls.session.commit()
         return cls.get_by_id(_id)
+    
+    @classmethod
+    def get_by_id_list(cls, ids: Sequence):
+        return cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
 
 
 class SizeManager(BaseManager):
@@ -47,11 +51,6 @@ class SizeManager(BaseManager):
 class IngredientManager(BaseManager):
     model = Ingredient
     serializer = IngredientSerializer
-
-    @classmethod
-    def get_by_id_list(cls, ids: Sequence):
-        return cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
-
 
 class OrderManager(BaseManager):
     model = Order
@@ -87,6 +86,19 @@ class BeverageManager(BaseManager):
     model  = Beverage
     serializer = BeverageSerializer
 
-    @classmethod
-    def get_by_id_list(cls, ids: Sequence):
-        return cls.session.query(cls.model).filter(cls.model._id.in_(set(ids))).all() or []
+
+class ManagerFactory:
+    def manager(manager_type):
+        managers ={
+            'size':SizeManager,
+            'ingredient':IngredientManager,
+            'beverage':BeverageManager,
+            'order':OrderManager,
+            'index':IndexManager,
+        }
+
+        manager_to_use = managers.get(manager_type)
+        if(manager_to_use):
+            return manager_to_use
+        else:
+            raise ValueError("Invalid manager type")
