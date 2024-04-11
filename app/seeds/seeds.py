@@ -54,8 +54,8 @@ def get_beverages():
   return beverages_return
 
 
-def create_order():
-  select_costumer = random.choice(generators.create_costumers())
+def create_order(costumer_list):
+  select_costumer = random.choice(costumer_list)
   select_size = get_sizes()
   ingredients = get_ingredients();
   beverages = get_beverages(); 
@@ -69,8 +69,12 @@ def create_order():
 
 
 def populate_database():
-  add_sizes()
-  add_ingredients()
-  add_beverages()
-  for _ in range(100):
-    create_order()
+  try:
+    costumer_list = generators.create_costumers()
+    add_sizes()
+    add_ingredients()
+    add_beverages()
+    for _ in range(100):
+      create_order(costumer_list)
+  except:
+    raise("An error occurred when trying to populate the database.")    
