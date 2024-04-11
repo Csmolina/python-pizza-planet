@@ -3,10 +3,7 @@ name: Run Tests and Coverage
 on:
   pull_request:
     branches:
-      - main
-  push:
-    branches:
-      '*'      
+      - main     
 
 jobs:
   tests:
