@@ -1,13 +1,12 @@
 from sqlalchemy.exc import SQLAlchemyError
 
 from ..common.utils import check_required_keys
-from ..repositories.managers import (IngredientManager, OrderManager,
-                                     SizeManager, BeverageManager)
+from ..repositories.managers import ManagerFactory
 from .base import BaseController
 
 
 class OrderController(BaseController):
-    manager = OrderManager
+    manager = ManagerFactory.manager('order')
     __required_info = ('client_name', 'client_dni', 'client_address', 'client_phone', 'size_id')
 
     @staticmethod
@@ -25,7 +24,7 @@ class OrderController(BaseController):
             return 'Invalid order payload', None
 
         size_id = current_order.get('size_id')
-        size = SizeManager.get_by_id(size_id)
+        size = ManagerFactory.manager('size').get_by_id(size_id)
 
         if not size:
             return 'Invalid size for Order', None
@@ -33,8 +32,8 @@ class OrderController(BaseController):
         ingredient_ids = current_order.pop('ingredients', [])
         beverage_ids = current_order.pop('beverages',[])
         try:
-            ingredients = IngredientManager.get_by_id_list(ingredient_ids)
-            beverages = BeverageManager.get_by_id_list(beverage_ids)
+            ingredients = ManagerFactory.manager('ingredient').get_by_id_list(ingredient_ids)
+            beverages = ManagerFactory.manager('beverage').get_by_id_list(beverage_ids)
             price = cls.calculate_order_price(size.get('price'), ingredients, beverages)
             order_with_price = {**current_order, 'total_price': price}
             return cls.manager.create(order_with_price, ingredients, beverages), None
