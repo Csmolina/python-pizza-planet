@@ -1,8 +1,8 @@
-create-venv:
+create_venv:
 	python3 -m venv .venv
 
 .PHONY: activate-venv
-activate-venv: .venv/bin/activate
+activate_venv: .venv/bin/activate
 	. .venv/bin/activate
 install:
 	pip3 install -r requirements.txt
