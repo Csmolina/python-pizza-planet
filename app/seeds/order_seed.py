@@ -1,17 +1,20 @@
 import random
 from app.controllers.order import OrderController
 from app.repositories.managers import ManagerFactory
+from .beverage_seed import get_beverages
+from .ingredient_seed import get_ingredients
+from .size_seed import get_sizes
 from .utils import generators
 
-def create_order(costumer_list, sizes, ingredients, beverages):
+def create_order(costumer_list):
+  sizes = get_sizes()
+  ingredients = get_ingredients()
+  beverages = get_beverages()
   select_costumer = random.choice(costumer_list)
-  select_size = sizes
-  select_ingredients = ingredients
-  select_beverages = beverages 
-  price = OrderController.calculate_order_price(select_size["price"],select_ingredients,select_beverages)
+  price = OrderController.calculate_order_price(sizes["price"],ingredients,beverages)
   new_order = {**select_costumer,
-               "size_id":select_size["_id"],
+               "size_id":sizes["_id"],
                "date":generators.create_date(),
                "total_price":price
                }
-  ManagerFactory.manager('order').create(new_order, select_ingredients, select_beverages)
+  ManagerFactory.manager('order').create(new_order, ingredients, beverages)
