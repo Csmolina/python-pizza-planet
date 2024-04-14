@@ -23,28 +23,21 @@ jobs:
 
     - name: Run tests and coverage
       run: |
-        coverage run -m pytest
-        coverage report -m > coverage.txt
+        pytest --cov | sed -n '/Name\s*Stmts\s*Miss\s*Cover\s*$/,$p' > coverage.txt
+        export COVERAGE_REPORT=$(cat coverage_report.txt)
+        ls -l  
+        cat coverage_report.txt
 
-    - name: Read coverage report
-      id: read-coverage
-      run: |
-        echo "::set-output name=coverage::$(cat coverage.txt)"
 
     - name: Comment on PR with coverage
       uses: actions/github-script@v4
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const output = `
-            Coverage Report:
-            ${process.env.COVERAGE}
-          `;
+          const output = process.env.COVERAGE_REPORT;
           github.issues.createComment({
             issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
-            body: output
+            body: `Coverage Report:\n${output}`
           });
-      env:
-        COVERAGE: ${{ steps.read-coverage.outputs.coverage }}
