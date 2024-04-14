@@ -20,3 +20,9 @@ init_db:
 
 populate:
 	python3 manage.py populate
+
+a:
+ 	coverage run -m pytest > coverage_report.txt
+ 	coverage report -m | awk 'NR==1; NR>2{print $1,$2,$3,$4,$5}' >> coverage_report.txt
+ 	ls -l
+ 	cat coverage_report.txt

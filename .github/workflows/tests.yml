@@ -23,20 +23,7 @@ jobs:
 
     - name: Run tests and coverage
       run: |
-        pytest --cov | sed -n '/Name\s*Stmts\s*Miss\s*Cover\s*$/,$p' > coverage.txt
-        ls -l
-        cat coverage.txt
+        pytest --cache-clear --cov > pytest-coverage.txt
 
-    - name: Comment on PR with coverage
-      uses: actions/github-script@v4
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const fs = require('fs');
-          const output = fs.readFileSync('coverage.txt', 'utf8');
-          github.issues.createComment({
-            issue_number: context.issue.number,
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            body: `Coverage Report:\n${output}`
-          });
+    - name: Comment coverage
+      uses: coroo/pytest-coverage-commentator@v1.0.2
