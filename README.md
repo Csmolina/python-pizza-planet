@@ -114,7 +114,7 @@ make test
 
 - Make sure you've installed all the neccesary dependencies
 
-- Run the test command
+- Run the populate command
 
 ```bash
 make populate
