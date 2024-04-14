@@ -21,5 +21,30 @@ jobs:
       run: |
        pip3 install -r requirements.txt
 
-    - name: Run tests
-      run: pytest --cov
+    - name: Run tests and coverage
+      run: |
+        coverage run -m pytest
+        coverage report -m > coverage.txt
+
+    - name: Read coverage report
+      id: read-coverage
+      run: |
+        echo "::set-output name=coverage::$(cat coverage.txt)"
+
+    - name: Comment on PR with coverage
+      uses: actions/github-script@v4
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        script: |
+          const output = `
+            Coverage Report:
+            ${process.env.COVERAGE}
+          `;
+          github.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: output
+          });
+      env:
+        COVERAGE: ${{ steps.read-coverage.outputs.coverage }}
