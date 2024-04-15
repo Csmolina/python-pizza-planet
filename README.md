@@ -40,7 +40,7 @@ make create_venv
 _For linux/MacOS users:_
 
 ```bash
-make activate_venv 
+source .venv/bin/activate 
 ```
 
 _For windows users:_
